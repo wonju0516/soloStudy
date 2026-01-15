@@ -9,7 +9,7 @@ import androidx.core.view.WindowInsetsCompat
 import com.part2.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityMainBinding
+    private lateinit var binding: ActivityMainBinding
     override fun onCreate(savedInstanceState: Bundle?) {
         binding = ActivityMainBinding.inflate(layoutInflater)
         super.onCreate(savedInstanceState)
@@ -20,10 +20,22 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
-        val webView = binding.webView
-        // val webView = findViewById<WebView>(R.id.webView) --> 이거랑 같음
-        webView.webViewClient = WebViewClient()
-        webView.settings.javaScriptEnabled = true //
-        webView.loadUrl("https://google.com")
+
+        binding.button1.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .apply { // transaction -> 작업의 단위 beginTransaction() -> 트랜잭션 시작, commit() -> 트랜잭션 완료
+                    replace(R.id.FragmentContainer, WebViewFragment()) // FragmentContainer -> activity_main.xml의 fragmentContainerView
+                    commit()
+                }
+
+        }
+        binding.button2.setOnClickListener {
+            supportFragmentManager.beginTransaction()
+                .apply { // transaction -> 작업의 단위 beginTransaction() -> 트랜잭션 시작, commit() -> 트랜잭션 완료
+                    replace(R.id.FragmentContainer, BFragment()) // FragmentContainer -> activity_main.xml의 fragmentContainerView
+                    commit()
+                }
+        }
+
     }
 }
