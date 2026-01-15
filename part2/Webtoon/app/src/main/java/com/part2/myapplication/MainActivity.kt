@@ -21,6 +21,7 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+
         binding.button1.setOnClickListener {
             supportFragmentManager.beginTransaction()
                 .apply { // transaction -> 작업의 단위 beginTransaction() -> 트랜잭션 시작, commit() -> 트랜잭션 완료
@@ -38,4 +39,5 @@ class MainActivity : AppCompatActivity() {
         }
 
     }
+
 }

@@ -23,8 +23,8 @@ class WebViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val webView = binding.webView
-        webView.webViewClient = WebViewClient()
+        webView.webViewClient = WebtoonWebViewClient(binding.progressBar) //webViewClient 설정 -> WebtoonWebViewClient 클래스 사용 어차피 둘이 상속관계
         webView.settings.javaScriptEnabled = true
-        webView.loadUrl("https://google.com")
+        webView.loadUrl("https://comic.naver.com/")
     }
 }
