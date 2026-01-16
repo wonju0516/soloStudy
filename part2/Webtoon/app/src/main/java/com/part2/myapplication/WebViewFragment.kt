@@ -5,8 +5,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
+import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import com.part2.myapplication.databinding.FragmentWebviewBinding
+
+
 
 class WebViewFragment : Fragment() {
     private lateinit var binding: FragmentWebviewBinding
@@ -26,5 +29,17 @@ class WebViewFragment : Fragment() {
         webView.webViewClient = WebtoonWebViewClient(binding.progressBar) //webViewClient 설정 -> WebtoonWebViewClient 클래스 사용 어차피 둘이 상속관계
         webView.settings.javaScriptEnabled = true
         webView.loadUrl("https://comic.naver.com/")
+
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object:
+            OnBackPressedCallback(true){
+            override fun handleOnBackPressed() {
+                if(webView.canGoBack()){ //webView가 뒤로갈 수 있는지 확인
+                    webView.goBack() //뒤로가기
+                } else {
+                    isEnabled = false //기능 비활성화
+                    requireActivity().onBackPressedDispatcher.onBackPressed() // 기능 -> Activity에서 처리 -> 앱 종료가 됨
+                }
+            }
+        })
     }
 }
