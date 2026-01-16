@@ -1,11 +1,14 @@
 package com.part2.myapplication
 
 import android.os.Bundle
+import android.view.Gravity
 import android.webkit.WebViewClient
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import com.google.android.material.tabs.TabLayoutMediator
 import com.part2.myapplication.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -21,22 +24,17 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 
+        binding.viewPager.adapter = ViewPagerAdapter(this)
+        TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
+            run {
+                val textView = TextView(this@MainActivity) // this@MainActivity -> MainActivity의 context를 의미
+                textView.text = "position $position"
+                textView.gravity = Gravity.CENTER
 
-        binding.button1.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .apply { // transaction -> 작업의 단위 beginTransaction() -> 트랜잭션 시작, commit() -> 트랜잭션 완료
-                    replace(R.id.FragmentContainer, WebViewFragment()) // FragmentContainer -> activity_main.xml의 fragmentContainerView
-                    commit()
-                }
-
-        }
-        binding.button2.setOnClickListener {
-            supportFragmentManager.beginTransaction()
-                .apply { // transaction -> 작업의 단위 beginTransaction() -> 트랜잭션 시작, commit() -> 트랜잭션 완료
-                    replace(R.id.FragmentContainer, BFragment()) // FragmentContainer -> activity_main.xml의 fragmentContainerView
-                    commit()
-                }
-        }
+                tab.customView = textView
+                //tab.text = "position $position"
+            }
+        }.attach() // attach -> tabLayout과 viewPager 연결
 
     }
 
