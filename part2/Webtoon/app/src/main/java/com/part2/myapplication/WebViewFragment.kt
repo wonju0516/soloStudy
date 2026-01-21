@@ -1,17 +1,20 @@
 package com.part2.myapplication
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.webkit.WebViewClient
+import android.widget.Toast
 import androidx.activity.OnBackPressedCallback
+import androidx.core.content.edit
 import androidx.fragment.app.Fragment
 import com.part2.myapplication.databinding.FragmentWebviewBinding
 
 
 
-class WebViewFragment : Fragment() {
+class WebViewFragment(private val position : Int) : Fragment() {
     private lateinit var binding: FragmentWebviewBinding
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,9 +29,23 @@ class WebViewFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         val webView = binding.webView
-        webView.webViewClient = WebtoonWebViewClient(binding.progressBar) //webViewClient 설정 -> WebtoonWebViewClient 클래스 사용 어차피 둘이 상속관계
+        webView.webViewClient = WebtoonWebViewClient(binding.progressBar, { url ->
+            activity?.getSharedPreferences("WEB_HISTORY", Context.MODE_PRIVATE)?.edit {
+                putString("tab$position", url)
+            }
+        }) //webViewClient 설정 -> WebtoonWebViewClient 클래스 사용 어차피 둘이 상속관계
         webView.settings.javaScriptEnabled = true
         webView.loadUrl("https://comic.naver.com/")
+
+        binding.backToLastButton.setOnClickListener {
+            val sharedPreference = activity?.getSharedPreferences("WEB_HISTORY", Context.MODE_PRIVATE)
+            val url = sharedPreference?.getString("tab$position", "")
+            if( url.isNullOrEmpty()) {
+                Toast.makeText(activity, "이전 기록이 없습니다.", Toast.LENGTH_SHORT).show()
+            } else {
+                binding.webView.loadUrl(url)
+            }
+        }
 
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object:
             OnBackPressedCallback(true){

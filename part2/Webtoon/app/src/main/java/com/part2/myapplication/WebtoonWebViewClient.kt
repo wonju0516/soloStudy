@@ -9,7 +9,21 @@ import android.webkit.WebViewClient
 import android.widget.ProgressBar
 import androidx.core.view.isVisible
 
-class WebtoonWebViewClient(private val progressBar : ProgressBar): WebViewClient() {
+class WebtoonWebViewClient(
+    private val progressBar : ProgressBar,
+    private val saveData: (String) -> Unit,
+): WebViewClient() {
+
+    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean { // url를 로드하려고 할 때 호출되는 메서드
+        //
+        if(request != null && request.url.toString().contains("comic.naver.com/webtoon/detail")) {
+            saveData(request.url.toString()) // url 저장
+        }
+        // https://comic.naver.com/
+        //
+
+        return super.shouldOverrideUrlLoading(view, request)
+    }
 
 //    override fun shouldOverrideUrlLoading(view: WebView?, request: WebResourceRequest?): Boolean { //새로운 url로 이동할 때 호출되는 메서드
 //        //return true //true를 반환하면 WebView가 아닌 다른 앱에서 처리됨
