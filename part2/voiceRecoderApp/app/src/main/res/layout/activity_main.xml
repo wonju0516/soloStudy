@@ -8,12 +8,59 @@
     tools:context=".MainActivity">
 
     <TextView
+        android:id="@+id/timerTextView"
+        android:text="00:00.00"
+        android:textSize="40sp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Hello World!"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/waveformView"
+        />
+
+    <View
+        android:id="@+id/waveformView"
+        android:layout_width="0dp"
+        android:layout_height="250dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/recordButton"
+        />
+
+    <ImageView
+        android:src="@drawable/baseline_circle_24"
+        android:id="@+id/recordButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        app:tint="@color/red"
+        />
+
+    <ImageView
+        android:src="@drawable/baseline_play_arrow_24"
+        android:id="@+id/playButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/recordButton"
+        android:layout_marginBottom="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        />
+
+    <ImageView
+        android:src="@drawable/baseline_stop_24"
+        android:id="@+id/stopButton"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/recordButton"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="80dp"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
